@@ -3,12 +3,12 @@ sudo apt -y install virtualenv
 
 # get Kubespray + materials for this assignment
 git clone --branch release-2.22 https://github.com/kubernetes-sigs/kubespray.git
-git clone https://github.com/teaching-on-testbeds/k8s-ml.git
+git clone https://github.com/teaching-on-testbeds/ml-final-project-test.git
 
 mv kubespray/inventory/sample kubespray/inventory/mycluster
-cp k8s-ml/config/k8s-cluster.yml kubespray/inventory/mycluster/group_vars/k8s_cluster/k8s-cluster.yml
-cp k8s-ml/config/inventory.py    kubespray/contrib/inventory_builder/inventory.py
-cp k8s-ml/config/addons.yml      kubespray/inventory/mycluster/group_vars/k8s_cluster/addons.yml
+cp ml-final-project-test/config/k8s-cluster.yml kubespray/inventory/mycluster/group_vars/k8s_cluster/k8s-cluster.yml
+cp ml-final-project-test/config/inventory.py    kubespray/contrib/inventory_builder/inventory.py
+cp ml-final-project-test/config/addons.yml      kubespray/inventory/mycluster/group_vars/k8s_cluster/addons.yml
 
 # wait for other hosts to come up
 until sudo ssh -o StrictHostKeyChecking=no node-1 true >/dev/null 2>&1; do echo "Waiting for node-1 to come up"; sleep 5; done
@@ -55,7 +55,6 @@ done
 # needs to be in new session
 ssh -o StrictHostKeyChecking=no node-0 "docker run -d -p 5000:5000 --restart always --name registry registry:2"
 
-sudo wget https://raw.githubusercontent.com/teaching-on-testbeds/k8s-ml/main/config/daemon.json -O /etc/docker/daemon.json; sudo service docker restart
-ssh -o StrictHostKeyChecking=no node-1 "sudo wget https://raw.githubusercontent.com/teaching-on-testbeds/k8s-ml/main/config/daemon.json -O /etc/docker/daemon.json; sudo service docker restart"
-ssh -o StrictHostKeyChecking=no node-2 "sudo wget https://raw.githubusercontent.com/teaching-on-testbeds/k8s-ml/main/config/daemon.json -O /etc/docker/daemon.json; sudo service docker restart"
-
+sudo wget https://raw.githubusercontent.com/priyangshupal/ml-final-project-test/main/config/daemon.json -O /etc/docker/daemon.json; sudo service docker restart
+ssh -o StrictHostKeyChecking=no node-1 "sudo wget https://raw.githubusercontent.com/priyangshupal/ml-final-project-test/main/config/daemon.json -O /etc/docker/daemon.json; sudo service docker restart"
+ssh -o StrictHostKeyChecking=no node-2 "sudo wget https://raw.githubusercontent.com/priyangshupal/ml-final-project-test/main/config/daemon.json -O /etc/docker/daemon.json; sudo service docker restart"
